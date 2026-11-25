@@ -1,0 +1,50 @@
+{
+  "name": "nextjs-development",
+  "title": "Next.js Development",
+  "type": "Skill",
+  "category": "Development",
+  "version": "v1.0.0",
+  "status": "Published",
+  "featured": true,
+  "description": "Build production-ready applications using Next.js and React.",
+  "tags": ["TypeScript", "React", "Tailwind CSS"],
+  "overview": "Instructions and guidelines for building scalable Next.js applications.",
+  "included": [
+    "Project setup",
+    "App Router architecture",
+    "Reusable components",
+    "Server and client components",
+    "API integration",
+    "Best practices"
+  ],
+  "packageFiles": [
+    {
+      "name": "skill.json",
+      "type": "file",
+      "description": "Skill metadata, dependencies, tags, and package manifest."
+    },
+    {
+      "name": "SKILL.md",
+      "type": "file",
+      "description": "Core agent instructions, architecture rules, and workflow guidelines."
+    },
+    {
+      "name": "references/",
+      "type": "directory",
+      "description": "Detailed reference docs including architecture.md."
+    },
+    {
+      "name": "scripts/",
+      "type": "directory",
+      "description": "Automation and scaffolding helper scripts."
+    },
+    {
+      "name": "examples/",
+      "type": "directory",
+      "description": "Reference implementations for Server/Client components."
+    }
+  ],
+  "installCommand": "npx dai-cli skills add development/nextjs-development",
+  "sourcePath": "skills/development/nextjs-development"
+}
+

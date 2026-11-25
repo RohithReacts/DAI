@@ -3,11 +3,13 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
 import { Menu } from "lucide-react";
 import Logo from "@/components/assets/brandlogo.png"
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Sheet,
   SheetContent,
@@ -15,12 +17,17 @@ import {
 } from "@/components/ui/sheet";
 
 const navLinks = [
-  { name: "Platform", href: "#platform" },
-  { name: "Agentic Ai Apps", href: "#agentic ai apps" },
-  { name: "Agent MarketPlace", href: "#agent marketplace" },
+  { name: "Home", href: "/" },
+  { name: "Explore", href: "/explore" },
+  { name: "Agents", href: "/agents" },
+  { name: "Skills", href: "/skills" },
+  { name: "Connectors", href: "/connectors" },
+  { name: "Playbooks", href: "/playbooks" },
+  { name: "Tools", href: "/tools" },
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   React.useEffect(() => {
@@ -53,30 +60,47 @@ export function Navbar() {
               >
                 <Image src={Logo} alt="Logo" className="h-10 w-10 object-cover" />
               </motion.div>
-              <span className="font-bold text-xl tracking-tight">Reacts.ai</span>
+              <span className="font-bold text-xl tracking-widest">DAI</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname === link.href || pathname.startsWith(`${link.href}/`);
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors relative group",
+                    isActive
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {link.name}
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 h-0.5 bg-primary transition-all",
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    )}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Desktop Action Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="font-medium">
-              Log in
-            </Button>
-            <Button className="font-medium transition-transform hover:-translate-y-0.5">
+            <Button
+              className="font-medium transition-transform hover:-translate-y-0.5"
+              render={<Link href="/explore" />}
+              nativeButton={false}
+            >
               Get Started
             </Button>
           </div>
@@ -106,23 +130,36 @@ export function Navbar() {
 
                   {/* Links */}
                   <nav className="flex flex-col space-y-2 flex-1">
-                    {navLinks.map((link) => (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3 border-b border-border/50"
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
+                    {navLinks.map((link) => {
+                      const isActive =
+                        link.href === "/"
+                          ? pathname === "/"
+                          : pathname === link.href || pathname.startsWith(`${link.href}/`);
+                      return (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          className={cn(
+                            "text-sm transition-colors py-3 border-b border-border/50",
+                            isActive
+                              ? "font-semibold text-foreground"
+                              : "font-medium text-muted-foreground hover:text-foreground"
+                          )}
+                        >
+                          {link.name}
+                        </Link>
+                      );
+                    })}
                   </nav>
 
                   {/* Actions */}
-                  <div className="flex gap-2 mt-auto pb-12">
-                    <Button variant="outline" className="justify-center">
-                      Log in
-                    </Button>
-                    <Button variant="default" className="justify-center">
+                  <div className="flex flex-col gap-2 mt-auto pb-12 pr-6">
+                    <Button
+                      variant="default"
+                      className="w-full justify-center"
+                      render={<Link href="/explore" />}
+                      nativeButton={false}
+                    >
                       Get Started
                     </Button>
                   </div>
