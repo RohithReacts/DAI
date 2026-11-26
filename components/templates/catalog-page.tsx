@@ -16,10 +16,14 @@ export function CatalogPage({
   title,
   description,
   items,
+  emptyTitle = "No items yet",
+  emptyDescription = "Add your own custom items to feature them here.",
 }: {
   title: string;
   description: string;
   items: CatalogItem[];
+  emptyTitle?: string;
+  emptyDescription?: string;
 }) {
   return (
     <div className="flex flex-1 flex-col">
@@ -45,28 +49,41 @@ export function CatalogPage({
 
       <section className="relative w-full border-t border-border/50 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
-              <Card
-                key={item.title}
-                className="relative flex h-full flex-col justify-between bg-card/60 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md hover:ring-foreground/25"
-              >
-                <CardHeader className="gap-3">
-                  <CardTitle className="text-xl font-semibold tracking-tight">
-                    {item.title}
-                  </CardTitle>
-                  <CardDescription className="text-sm leading-relaxed text-muted-foreground">
-                    {item.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-2">
-                  <div className="inline-flex w-fit items-center rounded-md border border-border/80 bg-muted/40 px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                    {item.meta}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {items.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {items.map((item) => (
+                <Card
+                  key={item.title}
+                  className="relative flex h-full flex-col justify-between bg-card/60 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-muted/30 hover:shadow-md hover:ring-foreground/25"
+                >
+                  <CardHeader className="gap-3">
+                    <CardTitle className="text-xl font-semibold tracking-tight">
+                      {item.title}
+                    </CardTitle>
+                    <CardDescription className="text-sm leading-relaxed text-muted-foreground">
+                      {item.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-2">
+                    <div className="inline-flex w-fit items-center rounded-md border border-border/80 bg-muted/40 px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                      {item.meta}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="mx-auto max-w-md bg-card/60 text-center backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold">
+                  {emptyTitle}
+                </CardTitle>
+                <CardDescription>
+                  {emptyDescription}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          )}
         </div>
       </section>
     </div>

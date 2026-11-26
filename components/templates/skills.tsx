@@ -5,14 +5,6 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import {
   ArrowRight,
-  Code2,
-  FileSpreadsheet,
-  FlaskConical,
-  GitBranch,
-  KanbanSquare,
-  Palette,
-  Server,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 
@@ -51,39 +43,7 @@ interface SkillItem {
   icon: LucideIcon;
 }
 
-const skills: SkillItem[] = [
-  {
-    title: "Next.js Development",
-    featured: true,
-    description:
-      "Build production-ready applications using Next.js and React.",
-    category: "Development",
-    version: "v1.0.0",
-    meta: "Development · v1.0.0",
-    href: "/skills/nextjs-development",
-    icon: Code2,
-  },
-  {
-    title: "Playwright Automation",
-    featured: true,
-    description: "Browser automation, test scripts, screenshots and reporting.",
-    category: "Testing",
-    version: "v1.0.0",
-    meta: "Testing · v1.0.0",
-    href: "/skills/playwright-automation",
-    icon: FlaskConical,
-  },
-  {
-    title: "Google Sheets Analysis",
-    featured: true,
-    description: "Read, analyze, calculate and summarize spreadsheet data.",
-    category: "Data",
-    version: "v1.0.0",
-    meta: "Data · v1.0.0",
-    href: "/skills/google-sheets-analysis",
-    icon: FileSpreadsheet,
-  },
-];
+const skills: SkillItem[] = [];
 
 interface RecentSkillItem {
   title: string;
@@ -92,32 +52,7 @@ interface RecentSkillItem {
   icon: LucideIcon;
 }
 
-const recentlyAddedSkills: RecentSkillItem[] = [
-  {
-    title: "GitHub Repository Management",
-    category: "Development",
-    href: "/skills/github-repository-management",
-    icon: GitBranch,
-  },
-  {
-    title: "Jira Project Management",
-    category: "Productivity",
-    href: "/skills/jira-project-management",
-    icon: KanbanSquare,
-  },
-  {
-    title: "REST API Development",
-    category: "Development",
-    href: "/skills/rest-api-development",
-    icon: Server,
-  },
-  {
-    title: "UI/UX Design",
-    category: "Design",
-    href: "/skills/ui-ux-design",
-    icon: Palette,
-  },
-];
+const recentlyAddedSkills: RecentSkillItem[] = [];
 
 function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
   const Icon = skill.icon;
@@ -294,7 +229,7 @@ export function Skills() {
       </section>
 
       {/* Featured Skills Grid */}
-      {filteredFeaturedSkills.length > 0 && (
+      {(filteredFeaturedSkills.length > 0 || hasMatches || selectedCategory === "All Skills") && (
         <section className="relative w-full border-t border-border/50 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <div className="container mx-auto max-w-6xl">
             <motion.div
@@ -308,11 +243,24 @@ export function Skills() {
               </h2>
             </motion.div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredFeaturedSkills.map((skill, index) => (
-                <SkillCard key={skill.title} skill={skill} index={index} />
-              ))}
-            </div>
+            {filteredFeaturedSkills.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {filteredFeaturedSkills.map((skill, index) => (
+                  <SkillCard key={skill.title} skill={skill} index={index} />
+                ))}
+              </div>
+            ) : (
+              <Card className="mx-auto max-w-md bg-card/60 text-center backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold">
+                    No skills yet
+                  </CardTitle>
+                  <CardDescription>
+                    Add your own custom skills to feature them here.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            )}
           </div>
         </section>
       )}
@@ -356,7 +304,7 @@ export function Skills() {
       )}
 
       {/* Empty State */}
-      {!hasMatches && (
+      {!hasMatches && selectedCategory !== "All Skills" && (
         <section className="relative w-full border-t border-border/50 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="container mx-auto max-w-6xl">
             <Card className="mx-auto max-w-md bg-card/60 text-center backdrop-blur-sm">
